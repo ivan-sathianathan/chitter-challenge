@@ -6,10 +6,12 @@
   </head>
   <body>
     <% if current_user %>
-    <form action="/peeps" method="post">
-      <label>Peep</label>
-        <input type="text" name="content">
-      <input type="submit" value="Peep!">
+      <form action="/peeps" method="post">
+        <label>Peep</label>
+          <input type="text" name="content">
+          <input type="submit" value="Peep!">
+    <% else %>
+      You must sign up or sign in to create a peep
     <% end %>
   </body>
 </html>

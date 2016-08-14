@@ -16,11 +16,6 @@ class Chitter < Sinatra::Base
     redirect '/peeps'
   end
 
-  get '/peeps' do
-    @peeps = Peep.all
-    erb :'peeps/index'
-  end
-
   get '/users/new' do
     @user = User.new
     erb :'users/new'
@@ -42,16 +37,20 @@ class Chitter < Sinatra::Base
     end
   end
 
+  get '/peeps' do
+    @peeps = Peep.all
+    erb :'peeps/index'
+  end
+
   get '/peeps/new' do
     erb :'peeps/new'
   end
 
   post '/peeps' do
-      peep = Peep.new( username: session[:username],
-                          content: params[:content]
-                        )
-      # current_user.peeps << peep
-      # current_user.save
+      peep = Peep.new(
+                        content: params[:content],
+                        username: current_user.username
+                      )
       peep.save
       redirect('/')
   end
