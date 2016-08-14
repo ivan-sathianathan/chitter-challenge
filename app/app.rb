@@ -13,7 +13,12 @@ class Chitter < Sinatra::Base
 
 
   get '/' do
-    'Hello Chitter!'
+    redirect '/peeps'
+  end
+
+  get '/peeps' do
+    @peeps = Peep.all
+    erb :'peeps/index'
   end
 
   get '/users/new' do
@@ -30,16 +35,11 @@ class Chitter < Sinatra::Base
                     )
     if @user.save
       session[:user_id] = @user.id
-      redirect('users/welcome')
+      redirect('/')
     else
       flash.now[:notice] = "Password and confirmation password do not match"
       erb :'users/new'
     end
-  end
-
-  get '/users/welcome' do #this is eventually going to be the homescreen ('/peeps/list') where peeps are read from
-    @peeps = Peep.all
-    erb :'users/welcome'
   end
 
   get '/peeps/new' do
@@ -50,12 +50,10 @@ class Chitter < Sinatra::Base
       peep = Peep.new( username: session[:username],
                           content: params[:content]
                         )
-      p peep
-      p current_user
       # current_user.peeps << peep
       # current_user.save
       peep.save
-      redirect('/users/welcome')
+      redirect('/')
   end
 
   get '/sessions/new' do
@@ -67,9 +65,9 @@ class Chitter < Sinatra::Base
     if user
       session[:user_id] = user.id
       session[:username] = user.username
-      redirect('users/welcome')
+      redirect('/')
     else
-      flash.now[:errors] = ['Incorrect email or password']
+      flash.now[:errors] = ["Incorrect username or password"]
       erb :'sessions/new'
     end
   end
@@ -77,7 +75,7 @@ class Chitter < Sinatra::Base
   delete '/sessions' do
     session[:user_id] = nil
     flash.keep[:notice] = "Goodbye"
-    redirect to '/users/welcome'
+    redirect to '/'
   end
 
   helpers do

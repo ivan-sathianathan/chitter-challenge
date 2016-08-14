@@ -15,6 +15,9 @@ class User
   has n, :peeps, through: Resource
 
   validates_confirmation_of :password
+  validates_uniqueness_of :email, :username
+  validates_format_of :email, as: :email_address
+  validates_presence_of :name, :email, :username, :password_confirmation
 
   def password=(password)
     @password = password
