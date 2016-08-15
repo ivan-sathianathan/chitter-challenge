@@ -13,7 +13,7 @@ class Chitter < Sinatra::Base
       peep = Peep.new(
                         content: params[:content],
                         username: current_user.username,
-                        time: Time.now
+                        time: Time.new.strftime("%e %b %Y %H:%M%p")
                       )
       peep.save
       redirect('/')

@@ -1,7 +1,7 @@
 feature 'peep management' do
 
   context 'creating a peep' do
-    scenario 'requires sign in' do
+    scenario 'is not possible if not signed in' do
       visit '/peeps/new'
       expect(page).to have_content('You must sign up or sign in to create a peep')
     end
@@ -27,7 +27,7 @@ feature 'peep management' do
       visit '/peeps/new'
       fill_in('content', with: 'Hello world again!')
       click_button('Peep!')
-      expect(page).to have_content('User: mjones')
+      expect(page).to have_content('mjones peeped')
     end
 
     scenario 'can see peeps when not logged' do
@@ -46,8 +46,8 @@ feature 'peep management' do
       fill_in('content', with: 'Hello world, again!')
       click_button 'Peep!'
       visit '/'
-      expect(page.find('li:nth-child(1)')).to have_content 'User: ivan Peep: Hello world, again!'
-      expect(page.find('li:nth-child(2)')).to have_content 'User: ivan Peep: Hello world!'
+      expect(page.find('li:nth-child(1)')).to have_content 'ivan peeped Hello world, again!'
+      expect(page.find('li:nth-child(2)')).to have_content 'ivan peeped Hello world!'
     end
 
   # As a maker
@@ -55,7 +55,7 @@ feature 'peep management' do
   # I want to see the time at which it was made
     scenario 'peeps display timestamp' do
       create_peep
-      test_time = Time.new
+      test_time = Time.new.strftime("%e %b %Y %H:%M%p")
       allow(Time).to receive(:new) { test_time }
       expect(page).to have_content(test_time)
     end
