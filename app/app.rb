@@ -17,9 +17,10 @@ class Chitter < Sinatra::Base
   end
 
   get '/users/new' do
-    @user = User.new
+    @user = User.new #is this line needed?
     erb :'users/new'
   end
+
 
   post '/users' do
     @user = User.new( name: params[:name],
@@ -49,7 +50,8 @@ class Chitter < Sinatra::Base
   post '/peeps' do
       peep = Peep.new(
                         content: params[:content],
-                        username: current_user.username
+                        username: current_user.username,
+                        time: Time.now
                       )
       peep.save
       redirect('/')

@@ -6,10 +6,11 @@
   </head>
   <body>
     <ul id="peeps">
-      <% @peeps.each do | peep | %>
+      <% @peeps.sort_by { |peep| peep.time }.reverse.each do |peep| %>
         <li>
+          User: <%= peep.username %><br>
           Peep: <%= peep.content %>
-          User: <%= peep.username %>
+          Time: <%= peep.time %>
         </li>
       <% end %>
     </ul>
