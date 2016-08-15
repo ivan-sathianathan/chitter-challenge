@@ -19,7 +19,7 @@ require 'capybara/rspec'
 require 'rspec'
 require 'web_helpers'
 require 'database_cleaner'
-require './app/model/user'
+require './app/models/user'
 require './app/data_mapper_setup'
 
 
