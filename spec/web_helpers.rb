@@ -15,3 +15,11 @@ def sign_in(username:, password:)
   fill_in 'password', with: password
   click_button 'Sign in'
 end
+
+def create_peep(content: 'Hello world!')
+  sign_up
+  sign_in(username: 'ivan', password: '12345')
+  visit '/peeps/new'
+  fill_in 'content', with: content
+  click_button('Peep!')
+end
